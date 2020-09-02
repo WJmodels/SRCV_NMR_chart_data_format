@@ -1,7 +1,15 @@
 '''
 修改SRCV输出谱图数据格式
+cli 命令行接口 形如
+
+python srcv_out_format.py './in/brackets - 副本.txt' './out/test2.txt'
+
 '''
 #import os
+import fire
+
+
+
 
 def format_out_line1(integral_range, area, peaks):
     peaks_str = ','.join([str(x) for x in peaks])
@@ -76,12 +84,8 @@ def test_format_out_line1():
     line1 = format_out_line1(integral_range, area, peaks)
     print(line1)
 
-if __name__ == "__main__":
 
-    file_srcv = './in/brackets - 副本.txt'
-    file_output = './out/test.txt'
-
-
+def my_cli(file_srcv, file_output):
     with open(file_srcv, 'r') as f:
         lines_src = [line.strip('\n') for line in f.readlines()]
     
@@ -110,3 +114,11 @@ if __name__ == "__main__":
         for chart_name, integral_ranges in chart_data_dict.items():
             lines_output = [chart_separator, chart_name, *[str(record1) for record1 in integral_ranges], chart_separator, '']
             [f.write(line + '\n') for line in lines_output]
+
+
+
+
+if __name__ == "__main__":
+    #file_srcv = './in/brackets - 副本.txt'
+    #file_output = './out/test.txt'
+    fire.Fire(my_cli)
